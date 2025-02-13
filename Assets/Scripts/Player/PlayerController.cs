@@ -4,12 +4,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
 
-    PlayerInputs inputs;
+    PlayerControls inputs;
     Vector2 move;
 
     void Awake()
     {
-        inputs = new PlayerInputs();
+        inputs = new PlayerControls();
         inputs.Player.Attack.performed += ctx => Attack();
         inputs.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputs.Player.Move.canceled += ctx => move = Vector2.zero;

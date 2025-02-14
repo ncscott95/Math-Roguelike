@@ -10,4 +10,5 @@ public class Entity : MonoBehaviour
         set { health = value; }
     }
     private float maxHealth;
+    public float MoveSpeed;
 }

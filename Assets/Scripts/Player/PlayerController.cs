@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private GameObject projectile;
     private PlayerEntity player;
 
     PlayerControls inputs;
@@ -47,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector2 movement = speed * Time.deltaTime * new Vector2(move.x, move.y);
+        Vector2 movement = player.MoveSpeed * Time.deltaTime * new Vector2(move.x, move.y);
         transform.Translate(movement, Space.World);
 
         Vector2 facingDirection = look - new Vector2(transform.position.x, transform.position.y);

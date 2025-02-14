@@ -19,7 +19,7 @@ public enum Operations
     SINE_FUNCT,
 }
 
-[CreateAssetMenu(menuName = "Math Function", fileName = "New Math Function")]
+[CreateAssetMenu(menuName = "Math Function")]
 public class MathFunction : ScriptableObject
 {
     [System.Serializable]

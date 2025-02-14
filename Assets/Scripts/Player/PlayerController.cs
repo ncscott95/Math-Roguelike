@@ -1,23 +1,32 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private MathFunction functionX;
-    [SerializeField] private MathFunction functionY;
-    [SerializeField] private float sineDuration;
-    [SerializeField] private float sineSpeed;
+    [SerializeField] private GameObject projectile;
+    private PlayerEntity player;
 
     PlayerControls inputs;
     Vector2 move;
+    Vector2 look;
 
     void Awake()
     {
         inputs = new PlayerControls();
-        inputs.Player.Attack.performed += ctx => Attack();
+
         inputs.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputs.Player.Move.canceled += ctx => move = Vector2.zero;
+
+        inputs.Player.MousePos.performed += ctx => look = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
+        
+        inputs.Player.Attack.performed += ctx => Attack();
+
+        player = GetComponent<PlayerEntity>();
+    }
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void OnEnable()
@@ -33,24 +42,16 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         Debug.Log("Attack Pressed");
-        StartCoroutine(TestSineTransform(sineDuration));
+        player.basicAttack.Use(player);
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        Vector2 movement = new Vector2(move.x, move.y) * speed * Time.deltaTime;
+        Vector2 movement = speed * Time.deltaTime * new Vector2(move.x, move.y);
         transform.Translate(movement, Space.World);
-    }
 
-    private IEnumerator TestSineTransform(float duration)
-    {
-        Vector2 origin = transform.position;
-        float t = 0;
-        while(t <= duration)
-        {
-            transform.position = origin + new Vector2(functionX.Calculate(t * sineSpeed), functionY.Calculate(t * sineSpeed));
-            t += Time.deltaTime;
-            yield return null;
-        }
+        Vector2 facingDirection = look - new Vector2(transform.position.x, transform.position.y);
+        float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
+        transform.eulerAngles = new Vector3(0f, 0f, angle);
     }
 }

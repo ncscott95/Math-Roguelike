@@ -41,7 +41,19 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Abilities
+  - name: Background
+    uniqueID: 1181665721
+    locked: 0
+  - name: Entities
+    uniqueID: 2008227359
+    locked: 0
+  - name: Entities-Player
+    uniqueID: 905206619
+    locked: 0
+  - name: Abilities-Trails
+    uniqueID: 4089460061
+    locked: 0
+  - name: Abilities-Projectiles
     uniqueID: 3205877925
     locked: 0
   m_RenderingLayers:

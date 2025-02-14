@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,16 +11,16 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        player = GetComponent<PlayerEntity>();
         inputs = new PlayerControls();
 
         inputs.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputs.Player.Move.canceled += ctx => move = Vector2.zero;
 
-        inputs.Player.MousePos.performed += ctx => look = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
+        inputs.Player.Look.performed += ctx => look = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
         
         inputs.Player.Attack.performed += ctx => Attack();
-
-        player = GetComponent<PlayerEntity>();
+        inputs.Player.Special.performed += ctx => Special();
     }
 
     void Start()
@@ -41,6 +42,12 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Attack Pressed");
         player.BasicAttack.Use(player);
+    }
+
+    void Special()
+    {
+        Debug.Log("Special Pressed");
+        player.SpecialAttack.Use(player);
     }
 
     void Update()

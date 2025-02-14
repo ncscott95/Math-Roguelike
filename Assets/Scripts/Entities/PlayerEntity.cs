@@ -5,42 +5,103 @@ public class PlayerEntity : Entity
 {
     public Ability BasicAttack
     { get; set; }
-    public GameObject ProjectilePrefab;
+    public Ability SpecialAttack
+    { get; set; }
+    public List<GameObject> ProjectilePrefabs;
 
     void Start()
     {
         BasicAttack = ScriptableObject.CreateInstance<Ability>();
 
-        List<MathFunction.Variable> vars = new()
+        List<MathFunction.Variable> vars1 = new()
         {
             new("Duration", 4),
-            new("Speed", 4),
-            new("Width", 4),
-            new("Frequency", 2)
+            new("Speed", 10),
+            new("Width", 0.5f),
+            new("Frequency", 10)
         };
 
-        BasicAttack.FunctionX = new MathFunction(vars, new List<MathFunction.Operation>
+        BasicAttack.FunctionX = new MathFunction(vars1, new List<MathFunction.Operation>
         {
             new(Operations.PARAMETER, 0)
         });
 
-        BasicAttack.FunctionY = new MathFunction(vars, new List<MathFunction.Operation>
+        BasicAttack.FunctionY = new MathFunction(vars1, new List<MathFunction.Operation>
         {
-            new(Operations.SINE, new MathFunction(vars, new List<MathFunction.Operation>
+            new(Operations.SINE, new MathFunction(vars1, new List<MathFunction.Operation>
             {
                 new(Operations.VARIABLE, 3),
-                new(Operations.MULTIPLY, new MathFunction(vars, new List<MathFunction.Operation>
+                new(Operations.MULTIPLY, new MathFunction(vars1, new List<MathFunction.Operation>
                 {
                     new(Operations.PARAMETER, 0)
                 }))
             })),
-            new(Operations.MULTIPLY, new MathFunction(vars, new List<MathFunction.Operation>
+            new(Operations.MULTIPLY, new MathFunction(vars1, new List<MathFunction.Operation>
             {
                 new(Operations.VARIABLE, 2)
             }))
         });
 
-        BasicAttack.Variables = vars;
-        BasicAttack.Projectile = ProjectilePrefab;
+        BasicAttack.Variables = vars1;
+        BasicAttack.Projectile = ProjectilePrefabs[0];
+
+        SpecialAttack = ScriptableObject.CreateInstance<Ability>();
+
+        List<MathFunction.Variable> vars2 = new()
+        {
+            new("Duration", 4),
+            new("Speed", 20),
+            new("Radius", 2),
+            new("Petals", 5f/6f)
+        };
+
+        SpecialAttack.FunctionX = new MathFunction(vars2, new List<MathFunction.Operation>
+        {
+            new(Operations.VARIABLE, 2),
+            new(Operations.MULTIPLY, new MathFunction(vars2, new List<MathFunction.Operation>
+            {
+                new(Operations.SINE, new MathFunction(vars2, new List<MathFunction.Operation>
+                {
+                    new(Operations.VARIABLE, 3),
+                    new(Operations.MULTIPLY, new MathFunction(vars2, new List<MathFunction.Operation>
+                    {
+                        new(Operations.PARAMETER, 0)
+                    }))
+                }))
+            })),
+            new(Operations.MULTIPLY, new MathFunction(vars2, new List<MathFunction.Operation>
+            {
+                new(Operations.COSINE, new MathFunction(vars2, new List<MathFunction.Operation>
+                {
+                    new(Operations.PARAMETER, 0)
+                }))
+            }))
+        });
+
+        SpecialAttack.FunctionY = new MathFunction(vars2, new List<MathFunction.Operation>
+        {
+            new(Operations.VARIABLE, 2),
+            new(Operations.MULTIPLY, new MathFunction(vars2, new List<MathFunction.Operation>
+            {
+                new(Operations.SINE, new MathFunction(vars2, new List<MathFunction.Operation>
+                {
+                    new(Operations.VARIABLE, 3),
+                    new(Operations.MULTIPLY, new MathFunction(vars2, new List<MathFunction.Operation>
+                    {
+                        new(Operations.PARAMETER, 0)
+                    }))
+                }))
+            })),
+            new(Operations.MULTIPLY, new MathFunction(vars2, new List<MathFunction.Operation>
+            {
+                new(Operations.SINE, new MathFunction(vars2, new List<MathFunction.Operation>
+                {
+                    new(Operations.PARAMETER, 0)
+                }))
+            }))
+        });
+
+        SpecialAttack.Variables = vars2;
+        SpecialAttack.Projectile = ProjectilePrefabs[1];
     }
 }

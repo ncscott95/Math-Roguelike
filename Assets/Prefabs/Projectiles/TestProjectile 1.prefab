@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4348660091264247508}
   m_Layer: 0
-  m_Name: TestProjectile
+  m_Name: TestProjectile 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,7 +242,7 @@ TrailRenderer:
   m_SortingLayerID: -205507235
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3

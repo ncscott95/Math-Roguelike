@@ -13,6 +13,7 @@ public enum Operations
     DIVIDE,
     EXPONENT,
     SINE,
+    COSINE
 }
 
 public class MathFunction
@@ -53,6 +54,7 @@ public class MathFunction
                 Operations.DIVIDE => answer /= rValue,
                 Operations.EXPONENT => Mathf.Pow(answer, rValue),
                 Operations.SINE => Mathf.Sin(rValue),
+                Operations.COSINE => Mathf.Cos(rValue),
                 _ => rValue,
             };
         }

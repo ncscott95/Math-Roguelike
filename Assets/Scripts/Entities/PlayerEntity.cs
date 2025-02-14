@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerEntity : Entity
 {
+    [Header("Abilities")]
     public Ability BasicAttack
     { get; set; }
     public Ability SpecialAttack

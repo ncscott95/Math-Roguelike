@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private MathFunction function;
+    [SerializeField] private MathFunction functionX;
+    [SerializeField] private MathFunction functionY;
+    [SerializeField] private float sineDuration;
+    [SerializeField] private float sineSpeed;
 
     PlayerControls inputs;
     Vector2 move;
@@ -29,12 +33,24 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         Debug.Log("Attack Pressed");
-        Debug.Log(function.Calculate(transform.position.x));
+        StartCoroutine(TestSineTransform(sineDuration));
     }
 
     void FixedUpdate()
     {
-        Vector3 movement = new Vector2(move.x, move.y) * speed * Time.deltaTime;
+        Vector2 movement = new Vector2(move.x, move.y) * speed * Time.deltaTime;
         transform.Translate(movement, Space.World);
+    }
+
+    private IEnumerator TestSineTransform(float duration)
+    {
+        Vector2 origin = transform.position;
+        float t = 0;
+        while(t <= duration)
+        {
+            transform.position = origin + new Vector2(functionX.Calculate(t * sineSpeed), functionY.Calculate(t * sineSpeed));
+            t += Time.deltaTime;
+            yield return null;
+        }
     }
 }

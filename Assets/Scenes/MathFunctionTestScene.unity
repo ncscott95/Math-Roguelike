@@ -388,7 +388,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  function: {fileID: 11400000, guid: 35a9c03d72d0d1244a99de5f39b77e95, type: 2}
+  functionX: {fileID: 11400000, guid: cd2d9ab97e09e194697c38278d40ec83, type: 2}
+  functionY: {fileID: 11400000, guid: 7f579ca7606105d4d93a9729bdfee228, type: 2}
+  sineDuration: 5
+  sineSpeed: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

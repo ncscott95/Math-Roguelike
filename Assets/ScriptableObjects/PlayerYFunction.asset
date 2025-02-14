@@ -10,21 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51c7afc5af92b7e4d85a208f12a0fd1c, type: 3}
-  m_Name: TestFunction
+  m_Name: PlayerYFunction
   m_EditorClassIdentifier: 
   Function:
   - operation: 0
-    constant: 2
+    constant: 1
     expression: {fileID: 0}
-  - operation: 2
-    constant: 5
-    expression: {fileID: 0}
-  - operation: 6
-    constant: 5
-    expression: {fileID: 0}
-  - operation: 8
-    constant: 5
-    expression: {fileID: 0}
-  - operation: 13
-    constant: 5
-    expression: {fileID: 11400000, guid: 36f87d1466454d14d939aa9e55b157af, type: 2}
+  - operation: 7
+    constant: 0
+    expression: {fileID: 11400000, guid: a01d5f945530ff84b8519557bd896488, type: 2}

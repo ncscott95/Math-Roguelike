@@ -629,6 +629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Player
+  maxHealth: 10
   MoveSpeed: 10
   basicAttack: {fileID: 11400000, guid: 39b4aa23773134a4a9517abb249709d6, type: 2}
 --- !u!1660057539 &9223372036854775807

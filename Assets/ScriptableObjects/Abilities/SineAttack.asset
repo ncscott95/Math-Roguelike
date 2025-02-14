@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1408c7459fb8c4b8b7a3a2babeb1e6, type: 3}
   m_Name: SineAttack
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 202837386188180247, guid: 71e26c61c7b37444292d82d25d1bfdb8, type: 3}
+  Projectile: {fileID: 202837386188180247, guid: 71e26c61c7b37444292d82d25d1bfdb8, type: 3}
   FunctionX: {fileID: 11400000, guid: cd2d9ab97e09e194697c38278d40ec83, type: 2}
   FunctionY: {fileID: 11400000, guid: a01d5f945530ff84b8519557bd896488, type: 2}
   Duration: 2

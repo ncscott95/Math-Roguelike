@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private MathFunction function;
 
     PlayerControls inputs;
     Vector2 move;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         Debug.Log("Attack Pressed");
+        Debug.Log(function.Calculate(transform.position.x));
     }
 
     void FixedUpdate()

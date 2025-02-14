@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
         Debug.Log("Attack Pressed");
-        player.basicAttack.Use(player);
+        player.BasicAttack.Use(player);
     }
 
     void Update()

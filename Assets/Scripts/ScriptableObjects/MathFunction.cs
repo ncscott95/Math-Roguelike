@@ -1,63 +1,88 @@
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 
 public enum Operations
 {
     CONSTANT,
+    PARAMETER,
     VARIABLE,
-    ADD_CONST,
-    ADD_FUNCT,
-    SUBTRACT_CONST,
-    SUBTRACT_FUNCT,
-    MULTIPLY_CONST,
-    MULTIPLY_FUNCT,
-    DIVIDE_CONST,
-    DIVIDE_FUNCT,
-    EXPONENT_CONST,
-    EXPONENT_FUNCT,
-    SINE_CONST,
-    SINE_FUNCT,
+    ADD,
+    SUBTRACT,
+    MULTIPLY,
+    DIVIDE,
+    EXPONENT,
+    SINE,
 }
 
-[CreateAssetMenu(menuName = "Math Function")]
-public class MathFunction : ScriptableObject
+public class MathFunction
 {
-    [System.Serializable]
     public class Operation
     {
-        [SerializeField] private Operations operation;
-        [SerializeField] private float constant;
-        [SerializeField] private MathFunction expression;
+        private Operations operation;
+        private float constant;
+        private MathFunction expression;
 
-        public float Evaluate(float var, float answer)
+        public Operation(Operations operation, float constant)
         {
+            this.operation = operation;
+            this.constant = constant;
+            expression = null;
+        }
+
+        public Operation(Operations operation, MathFunction expression)
+        {
+            this.operation = operation;
+            this.expression = expression;
+            constant = 0;
+        }
+
+        public float Evaluate(float param, List<Variable> vars, float answer)
+        {
+            float rValue = constant;
+            if(expression != null) rValue = expression.Calculate(param);
+
             return operation switch
             {
-                Operations.CONSTANT => constant,
-                Operations.VARIABLE => var,
-                Operations.ADD_CONST => answer += constant,
-                Operations.ADD_FUNCT => answer += expression.Calculate(var),
-                Operations.SUBTRACT_CONST => answer -= constant,
-                Operations.SUBTRACT_FUNCT => answer -= expression.Calculate(var),
-                Operations.MULTIPLY_CONST => answer *= constant,
-                Operations.MULTIPLY_FUNCT => answer *= expression.Calculate(var),
-                Operations.DIVIDE_CONST => answer /= constant,
-                Operations.DIVIDE_FUNCT => answer *= expression.Calculate(var),
-                Operations.EXPONENT_CONST => Mathf.Pow(answer, constant),
-                Operations.EXPONENT_FUNCT => Mathf.Pow(answer, expression.Calculate(var)),
-                Operations.SINE_CONST => Mathf.Sin(constant),
-                Operations.SINE_FUNCT => Mathf.Sin(expression.Calculate(var)),
-                _ => constant,
+                Operations.CONSTANT => rValue,
+                Operations.PARAMETER => param,
+                Operations.VARIABLE => vars[(int)constant].Value,
+                Operations.ADD => answer += rValue,
+                Operations.SUBTRACT => answer -= rValue,
+                Operations.MULTIPLY => answer *= rValue,
+                Operations.DIVIDE => answer /= rValue,
+                Operations.EXPONENT => Mathf.Pow(answer, rValue),
+                Operations.SINE => Mathf.Sin(rValue),
+                _ => rValue,
             };
         }
     }
+    
+    public class Variable
+    {
+        public string Name;
+        public float Value;
 
-    public List<Operation> Function = new();
+        public Variable(string name, float value)
+        {
+            Name = name;
+            Value = value;
+        }
+    }
 
-    public float Calculate(float var)
+    public List<Operation> Function;
+    public List<Variable> Variables;
+
+    public MathFunction(List<Variable> variables, List<Operation> function)
+    {
+        Variables = variables;
+        Function = function;
+    }
+
+    public float Calculate(float param)
     {
         float answer = 0;
-        foreach(Operation op in Function) answer = op.Evaluate(var, answer);
+        foreach(Operation op in Function) answer = op.Evaluate(param, Variables, answer);
         return answer;
     }
 }

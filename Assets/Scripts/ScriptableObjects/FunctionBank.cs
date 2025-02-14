@@ -3,6 +3,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Function Bank")]
 public class FunctionBank : ScriptableObject
 {
+    public class Variable
+    {
+        public string Name;
+        public float Value;
+
+        public Variable(string name, float value)
+        {
+            Name = name;
+            Value = value;
+        }
+    }
+
     static FunctionBank _instance;
     public static FunctionBank Instance
     {

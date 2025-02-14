@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
         
         inputs.Player.Attack.performed += ctx => Attack();
         inputs.Player.Special.performed += ctx => Special();
+        inputs.Player.DebugSwap.performed += ctx => DebugSwapAttacks();
     }
 
     void Start()
@@ -47,6 +48,12 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Special Pressed");
         player.SpecialAttack.Use(player);
+    }
+
+    void DebugSwapAttacks()
+    {
+        if(player.BasicAttack == player.LinearAttack) player.BasicAttack = player.SineAttack;
+        else player.BasicAttack = player.LinearAttack;
     }
 
     void Update()

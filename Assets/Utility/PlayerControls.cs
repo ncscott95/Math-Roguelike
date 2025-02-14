@@ -62,6 +62,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""DebugSwap"",
+                    ""type"": ""Button"",
+                    ""id"": ""a500bef6-f8b5-4d48-a4b9-4184c330ef7c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c961979e-26b7-4fb4-8fc8-66f9640aefcd"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugSwap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -757,6 +777,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Special = m_Player.FindAction("Special", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_DebugSwap = m_Player.FindAction("DebugSwap", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -840,6 +861,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Special;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_DebugSwap;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -848,6 +870,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Special => m_Wrapper.m_Player_Special;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @DebugSwap => m_Wrapper.m_Player_DebugSwap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -869,6 +892,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @DebugSwap.started += instance.OnDebugSwap;
+            @DebugSwap.performed += instance.OnDebugSwap;
+            @DebugSwap.canceled += instance.OnDebugSwap;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -885,6 +911,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @DebugSwap.started -= instance.OnDebugSwap;
+            @DebugSwap.performed -= instance.OnDebugSwap;
+            @DebugSwap.canceled -= instance.OnDebugSwap;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1026,6 +1055,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecial(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnDebugSwap(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

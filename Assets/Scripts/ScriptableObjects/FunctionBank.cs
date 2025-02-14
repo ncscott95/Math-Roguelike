@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Function Bank")]
+[CreateAssetMenu(fileName = "FunctionBank")]
 public class FunctionBank : ScriptableObject
 {
     public class Variable
@@ -45,11 +45,11 @@ public class FunctionBank : ScriptableObject
 
     public float RoseX(float t, float S, float a, float n)
     {
-        return a * Mathf.Sin(n * S * t) * Mathf.Cos(S * t);
+        return -1f * a * Mathf.Sin(n * S * t) * Mathf.Cos(S * t);
     }
 
     public float RoseY(float t, float S, float a, float n)
     {
-        return a * Mathf.Sin(n * S * t) * Mathf.Sin(S * t);
+        return -1f * a * Mathf.Sin(n * S * t) * Mathf.Sin(S * t);
     }
 }

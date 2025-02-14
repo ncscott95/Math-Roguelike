@@ -9,9 +9,11 @@ public class Ability : ScriptableObject
     public List<FunctionBank.Variable> Variables;
     public GameObject Projectile;
 
+    public float Damage = 1f; // TODO: replace with damage function
+
     public void Use(Entity source)
     {
         Instantiate(Projectile, source.transform.position, source.transform.rotation)
-                .GetComponentInChildren<Projectile>().Fire(fX, fY, Variables);
+                .GetComponentInChildren<Projectile>().Fire(fX, fY, Variables, source, Damage);
     }
 }

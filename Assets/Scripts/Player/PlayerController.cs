@@ -40,13 +40,11 @@ public class PlayerController : MonoBehaviour
     
     void Attack()
     {
-        Debug.Log("Attack Pressed");
         player.BasicAttack.Use(player);
     }
 
     void Special()
     {
-        Debug.Log("Special Pressed");
         player.SpecialAttack.Use(player);
     }
 

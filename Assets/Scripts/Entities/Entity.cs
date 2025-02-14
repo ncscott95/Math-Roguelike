@@ -10,7 +10,7 @@ public class Entity : MonoBehaviour
     [SerializeField] private float maxHealth;
     public float MoveSpeed;
 
-    private float health;
+    [SerializeField] private float health;
     public float Health
     {
         get => health;

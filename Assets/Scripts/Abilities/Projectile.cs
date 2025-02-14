@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public void Fire(Ability.PositionFunction fx, Ability.PositionFunction fy, List<FunctionBank.Variable> vars)
+    private Entity source;
+    private int ignoreLayer;
+    private float damage;
+
+    public void Fire(Ability.PositionFunction fx, Ability.PositionFunction fy, 
+            List<FunctionBank.Variable> vars, Entity source, float damage)
     {
+        this.source = source;
+        ignoreLayer = source.gameObject.layer;
+        this.damage = damage;
         StartCoroutine(Move(fx, fy, vars));
     }
 
@@ -24,5 +32,14 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
         Destroy(transform.parent.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer != ignoreLayer)
+        {
+            Debug.Log($"Collided with {collision}");
+            collision.gameObject.GetComponent<Entity>().Health -= damage;
+        }
     }
 }

@@ -8,37 +8,60 @@ public class Projectile : MonoBehaviour
     private int ignoreLayer;
     private float damage;
 
-    public void Fire(Ability.PositionFunction fx, Ability.PositionFunction fy, 
-            List<FunctionBank.Variable> vars, Entity source, float damage)
+    float time;
+
+    public void Fire(Entity source, Ability.MathFunction fx, Ability.MathFunction fy, 
+            List<FunctionBank.Variable> posVars, Ability.MathFunction fd, List<FunctionBank.Variable> dmgVars)
     {
-        this.source = source;
         ignoreLayer = source.gameObject.layer;
-        this.damage = damage;
-        StartCoroutine(Move(fx, fy, vars));
+        time = 0;
+        StartCoroutine(Timer(posVars[0].Value));
+        StartCoroutine(Move(fx, fy, posVars));
+        StartCoroutine(CalcDamage(fd, dmgVars));
     }
 
-    private IEnumerator Move(Ability.PositionFunction fx, Ability.PositionFunction fy, List<FunctionBank.Variable> vars)
+    private IEnumerator Timer(float duration)
     {
-        float duration = vars[0].Value;
-        float t = 0;
-        float S = vars[1].Value;
-        float a = vars[2].Value;
-        float n = vars[3].Value;
-
-        while(t <= duration)
+        while(time <= duration)
         {
-            transform.localPosition = new Vector2(fx(t, S, a, n), fy(t, S, a, n));
-            t += Time.deltaTime;
+            time += Time.deltaTime;
             yield return null;
         }
         Destroy(transform.parent.gameObject);
+    }
+
+    private IEnumerator Move(Ability.MathFunction fx, Ability.MathFunction fy, List<FunctionBank.Variable> vars)
+    {
+        float speed = vars[1].Value;
+        float a = vars[2].Value;
+        float n = vars[3].Value;
+
+        while(true)
+        {
+            transform.localPosition = new Vector2(fx(time, speed, a, n), fy(time, speed, a, n));
+            yield return null;
+        }
+    }
+
+    private IEnumerator CalcDamage(Ability.MathFunction fd, List<FunctionBank.Variable> vars)
+    {
+        float initial = vars[0].Value;
+        float speed = vars[1].Value;
+        float multiplier = vars[2].Value;
+        float power = vars[3].Value;
+
+        while(true)
+        {
+            damage = initial + fd(time, speed, multiplier, power);
+            yield return null;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.layer != ignoreLayer)
         {
-            Debug.Log($"Collided with {collision}");
+            Debug.Log($"Hit {collision.gameObject.name} for {damage} dmg");
             collision.gameObject.GetComponent<Entity>().Health -= damage;
         }
     }

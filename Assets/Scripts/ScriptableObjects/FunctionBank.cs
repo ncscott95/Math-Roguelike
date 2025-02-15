@@ -38,6 +38,11 @@ public class FunctionBank : ScriptableObject
         return S * t;
     }
 
+    public float Polynomial(float t, float S, float a, float n)
+    {
+        return a * Mathf.Pow(S * t, n);
+    }
+
     public float Sine(float t, float S, float a, float n)
     {
         return a * Mathf.Sin(n * S * t);

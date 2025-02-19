@@ -6,7 +6,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject CanvasObject
     { get; set; }
     
-    PlayerControls inputs;
+    private PlayerControls inputs;
 
     void Awake()
     {
@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
             Destroy(this);
         }
 
-        CanvasObject = GetComponentInChildren<Canvas>().gameObject;
+        if(CanvasObject == null) CanvasObject = GetComponentInChildren<Canvas>().gameObject;
         CanvasObject.SetActive(false);
 
         inputs = new PlayerControls();

@@ -6,9 +6,9 @@ public class PlayerController : MonoBehaviour
 
     private PlayerEntity player;
 
-    PlayerControls inputs;
-    Vector2 move;
-    Vector2 look;
+    private PlayerControls inputs;
+    private Vector2 move;
+    private Vector2 look;
 
     void Awake()
     {
@@ -34,11 +34,6 @@ public class PlayerController : MonoBehaviour
         inputs.Player.DebugSwap.performed += ctx => DebugSwapAttacks();
     }
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Confined;
-    }
-
     void OnEnable()
     {
         inputs.Player.Enable();
@@ -55,22 +50,22 @@ public class PlayerController : MonoBehaviour
         else inputs.Player.Disable();
     }
     
-    void Attack()
+    private void Attack()
     {
         player.BasicAttack.Use(player);
     }
 
-    void Special()
+    private void Special()
     {
         player.SpecialAttack.Use(player);
     }
 
-    void Pause()
+    private void Pause()
     {
         GameManager.Instance.PauseGame();
     }
 
-    void DebugSwapAttacks()
+    private void DebugSwapAttacks()
     {
         if(player.BasicAttack == player.LinearAttack) player.BasicAttack = player.SineAttack;
         else player.BasicAttack = player.LinearAttack;

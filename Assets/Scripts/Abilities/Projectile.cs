@@ -7,8 +7,7 @@ public class Projectile : MonoBehaviour
     private Entity source;
     private int ignoreLayer;
     private float damage;
-
-    float time;
+    private float time;
 
     public void Fire(Entity source, FunctionBank.FValue fx, FunctionBank.FValue fy, 
             List<FunctionBank.Variable> posVars, FunctionBank.FValue fd, List<FunctionBank.Variable> dmgVars)

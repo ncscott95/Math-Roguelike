@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+
     private PlayerEntity player;
 
     PlayerControls inputs;
@@ -10,6 +12,13 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        if (Instance == null) Instance = this;
+        else
+        {
+            Debug.LogWarning("Tried to create more than one instance of the PlayerController singleton!");
+            Destroy(this);
+        }
+
         player = GetComponent<PlayerEntity>();
         inputs = new PlayerControls();
 
@@ -20,6 +29,8 @@ public class PlayerController : MonoBehaviour
         
         inputs.Player.Attack.performed += ctx => Attack();
         inputs.Player.Special.performed += ctx => Special();
+        inputs.Player.Pause.performed += ctx => Pause();
+
         inputs.Player.DebugSwap.performed += ctx => DebugSwapAttacks();
     }
 
@@ -28,14 +39,20 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         inputs.Player.Enable();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         inputs.Player.Disable();
+    }
+
+    public void SetControlsActive(bool active)
+    {
+        if(active) inputs.Player.Enable();
+        else inputs.Player.Disable();
     }
     
     void Attack()
@@ -46,6 +63,11 @@ public class PlayerController : MonoBehaviour
     void Special()
     {
         player.SpecialAttack.Use(player);
+    }
+
+    void Pause()
+    {
+        GameManager.Instance.PauseGame();
     }
 
     void DebugSwapAttacks()

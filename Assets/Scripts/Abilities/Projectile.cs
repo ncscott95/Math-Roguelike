@@ -10,8 +10,8 @@ public class Projectile : MonoBehaviour
 
     float time;
 
-    public void Fire(Entity source, Ability.MathFunction fx, Ability.MathFunction fy, 
-            List<FunctionBank.Variable> posVars, Ability.MathFunction fd, List<FunctionBank.Variable> dmgVars)
+    public void Fire(Entity source, FunctionBank.FValue fx, FunctionBank.FValue fy, 
+            List<FunctionBank.Variable> posVars, FunctionBank.FValue fd, List<FunctionBank.Variable> dmgVars)
     {
         ignoreLayer = source.gameObject.layer;
         time = 0;
@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         Destroy(transform.parent.gameObject);
     }
 
-    private IEnumerator Move(Ability.MathFunction fx, Ability.MathFunction fy, List<FunctionBank.Variable> vars)
+    private IEnumerator Move(FunctionBank.FValue fx, FunctionBank.FValue fy, List<FunctionBank.Variable> vars)
     {
         float speed = vars[1].Value;
         float a = vars[2].Value;
@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private IEnumerator CalcDamage(Ability.MathFunction fd, List<FunctionBank.Variable> vars)
+    private IEnumerator CalcDamage(FunctionBank.FValue fd, List<FunctionBank.Variable> vars)
     {
         float initial = vars[0].Value;
         float speed = vars[1].Value;

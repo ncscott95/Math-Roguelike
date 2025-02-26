@@ -7,18 +7,18 @@ public class Entity : MonoBehaviour
     public string Name;
 
     [Header("Stats")]
+    public float Health
+    { get; set; }
     [SerializeField] private float maxHealth;
     public float MoveSpeed;
-
-    [SerializeField] private float health;
-    public float Health
-    {
-        get => health;
-        set { health = value; }
-    }
 
     void OnEnable()
     {
         Health = maxHealth;
+    }
+
+    public virtual void TakeDamage(float damage)
+    {
+        Health -= damage;
     }
 }

@@ -60,8 +60,7 @@ public class Projectile : MonoBehaviour
     {
         if(collision.gameObject.layer != ignoreLayer)
         {
-            Debug.Log($"Hit {collision.gameObject.name} for {damage} dmg");
-            collision.gameObject.GetComponent<Entity>().Health -= damage;
+            collision.gameObject.GetComponent<Entity>().TakeDamage(damage);
         }
     }
 }

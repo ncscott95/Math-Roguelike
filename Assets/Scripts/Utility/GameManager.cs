@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        Debug.Log(this);
         isPaused = !isPaused;
         PauseMenu.Instance.CanvasObject.SetActive(isPaused);
         Time.timeScale = isPaused ? 0 : 1;

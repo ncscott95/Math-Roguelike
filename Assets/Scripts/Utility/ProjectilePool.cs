@@ -39,9 +39,13 @@ public class ProjectilePool : MonoBehaviour
     
     public GameObject GetProjectile(GameObject prefab)
     {
-        if (!projectilePools.ContainsKey(prefab)) InitializePool(prefab);
+        if (!projectilePools.TryGetValue(prefab, out List<GameObject> pool))
+        {
+            InitializePool(prefab);
+            pool = projectilePools[prefab];
+        }
             
-        foreach (GameObject obj in projectilePools[prefab])
+        foreach (GameObject obj in pool)
         {
             if (!obj.activeInHierarchy)
             {

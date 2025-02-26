@@ -1395,8 +1395,6 @@ MonoBehaviour:
   Name: Enemy
   maxHealth: 10
   MoveSpeed: 0
-  ProjectilePrefabs:
-  - {fileID: 202837386188180247, guid: 71e26c61c7b37444292d82d25d1bfdb8, type: 3}
 --- !u!1 &1110471622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3275,9 +3273,6 @@ MonoBehaviour:
   Name: Player
   maxHealth: 10
   MoveSpeed: 10
-  ProjectilePrefabs:
-  - {fileID: 202837386188180247, guid: 71e26c61c7b37444292d82d25d1bfdb8, type: 3}
-  - {fileID: 202837386188180247, guid: 09d31cb4232b2ac4aa845160c376f355, type: 3}
 --- !u!58 &1745298549
 CircleCollider2D:
   m_ObjectHideFlags: 0

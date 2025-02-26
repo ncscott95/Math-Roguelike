@@ -10,6 +10,12 @@ public class Ability : ScriptableObject
 
         public AbilityFunction(FunctionTypes type)
         {
+            if (FunctionBank.Instance == null)
+            {
+                Debug.LogError("FunctionBank.Instance is null!");
+                return;
+            }
+
             switch(type)
             {
                 case FunctionTypes.CONSTANT:
@@ -52,7 +58,13 @@ public class Ability : ScriptableObject
 
     public void Use(Entity source)
     {
-        Instantiate(Projectile, source.transform.position, source.transform.rotation)
-                .GetComponentInChildren<Projectile>().Fire(source, FunctionPosX.ValueFunction, FunctionPosY.ValueFunction, PosVars, FunctionDmg.ValueFunction, DmgVars);
+        GameObject projectileObj = ProjectilePool.Instance.GetProjectile(Projectile);
+        
+        projectileObj.transform.position = source.transform.position;
+        projectileObj.transform.rotation = source.transform.rotation;
+        
+        projectileObj.GetComponentInChildren<Projectile>().Fire(source, 
+            FunctionPosX.ValueFunction, FunctionPosY.ValueFunction, 
+            PosVars, FunctionDmg.ValueFunction, DmgVars);
     }
 }

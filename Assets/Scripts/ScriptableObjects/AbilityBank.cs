@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AbilityBank")]
@@ -17,45 +16,45 @@ public class AbilityBank : ScriptableObject
         }
     }
     
-    public List<GameObject> ProjectilePrefabs;
+    [SerializeField] private AbilityConfiguration linearConfig;
+    [SerializeField] private AbilityConfiguration sineConfig;
+    [SerializeField] private AbilityConfiguration roseConfig;
 
-    private List<FunctionBank.Variable> defaultLinearPosVars { get => new(){ new("Duration", 2f), new("Speed", 10f), new("---", 0f), new("---", 0f) }; }
-    private List<FunctionBank.Variable> defaultSinePosVars { get => new(){ new("Duration", 4f), new("Speed", 5f), new("Width", 0.5f), new("Frequency", 10f) }; }
-    private List<FunctionBank.Variable> defaultRosePosVars { get => new(){ new("Duration", 4f), new("Speed", 10f), new("Radius", 2f), new("Angular Frequency", 2f) }; }
-    private List<FunctionBank.Variable> defaultDmgVars { get => new(){ new("Initial", 0f), new("Speed", 10f), new("Multiplier", 1f), new("Power", 0f) }; }
-
+    private Ability NewAbilityFromConfig(AbilityConfiguration config)
+    {
+        if (config == null)
+        {
+            Debug.LogError("Ability configuration is null!");
+            return null;
+        }
+        
+        Ability ability = CreateInstance<Ability>();
+        
+        ability.FunctionPosX = new Ability.AbilityFunction(config.positionXType);
+        ability.FunctionPosY = new Ability.AbilityFunction(config.positionYType);
+        ability.PosVars = config.GetPositionVariables();
+        
+        ability.FunctionDmg = new Ability.AbilityFunction(config.damageType);
+        ability.DmgVars = config.GetDamageVariables();
+        
+        ability.Projectile = config.projectilePrefab;
+        
+        return ability;
+    }
+    
     public Ability NewAbility(FunctionTypes type)
     {
-        Ability ability = CreateInstance<Ability>();
-
         switch(type)
         {
             case FunctionTypes.LINEAR:
-                ability.FunctionPosX = new(FunctionTypes.LINEAR);
-                ability.FunctionPosY = new(FunctionTypes.CONSTANT);
-                ability.PosVars = defaultLinearPosVars;
-                ability.Projectile = ProjectilePrefabs[0];
-                break;
+                return NewAbilityFromConfig(linearConfig);
             case FunctionTypes.SINE:
-                ability.FunctionPosX = new(FunctionTypes.LINEAR);
-                ability.FunctionPosY = new(FunctionTypes.SINE);
-                ability.PosVars = defaultSinePosVars;
-                ability.Projectile = ProjectilePrefabs[0];
-                break;
+                return NewAbilityFromConfig(sineConfig);
             case FunctionTypes.ROSEX:
-                ability.FunctionPosX = new(FunctionTypes.ROSEX);
-                ability.FunctionPosY = new(FunctionTypes.ROSEY);
-                ability.PosVars = defaultRosePosVars;
-                ability.Projectile = ProjectilePrefabs[1];
-                break;
+                return NewAbilityFromConfig(roseConfig);
             default:
                 Debug.LogWarning("Invalid function type");
-                break;
+                return null;
         }
-
-        ability.FunctionDmg = new(FunctionTypes.POLYNOMIAL);
-        ability.DmgVars = defaultDmgVars;
-
-        return ability;
     }
 }

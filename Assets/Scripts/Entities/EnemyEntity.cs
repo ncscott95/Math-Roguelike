@@ -1,11 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyEntity : Entity
 {
-    [Header("Abilities")]
-    public List<GameObject> ProjectilePrefabs;
-
     public Ability BasicAttack
     { get; set; }
     

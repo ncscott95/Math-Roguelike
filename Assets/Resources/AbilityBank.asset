@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d7874518a2ff2428f10630c2869b4a, type: 3}
   m_Name: AbilityBank
   m_EditorClassIdentifier: 
-  ProjectilePrefabs:
-  - {fileID: 202837386188180247, guid: 71e26c61c7b37444292d82d25d1bfdb8, type: 3}
-  - {fileID: 202837386188180247, guid: 09d31cb4232b2ac4aa845160c376f355, type: 3}
+  linearConfig: {fileID: 11400000, guid: 1285eb72b0a3cbf4a831943b07e261dc, type: 2}
+  sineConfig: {fileID: 11400000, guid: c7599131ad542f54eb3d2bd0f5e561ad, type: 2}
+  roseConfig: {fileID: 11400000, guid: 9f420df1b8087f94ab07c2c9ad1ba521, type: 2}

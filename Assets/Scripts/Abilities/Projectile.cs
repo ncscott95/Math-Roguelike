@@ -8,59 +8,83 @@ public class Projectile : MonoBehaviour
     private int ignoreLayer;
     private float damage;
     private float time;
-
+    private bool isActive = false;
+    private FunctionBank.FValue positionFunctionX;
+    private FunctionBank.FValue positionFunctionY;
+    private FunctionBank.FValue damageFunctionD;
+    private List<FunctionBank.Variable> posVars;
+    private List<FunctionBank.Variable> dmgVars;
+    private float duration;
+    
     public void Fire(Entity source, FunctionBank.FValue fx, FunctionBank.FValue fy, 
             List<FunctionBank.Variable> posVars, FunctionBank.FValue fd, List<FunctionBank.Variable> dmgVars)
     {
-        ignoreLayer = source.gameObject.layer;
+        this.source = source;
+        this.ignoreLayer = source.gameObject.layer;
+        this.positionFunctionX = fx;
+        this.positionFunctionY = fy;
+        this.damageFunctionD = fd;
+        this.posVars = posVars;
+        this.dmgVars = dmgVars;
+        this.duration = posVars[0].Value;
+        
         time = 0;
-        StartCoroutine(Timer(posVars[0].Value));
-        StartCoroutine(Move(fx, fy, posVars));
-        StartCoroutine(CalcDamage(fd, dmgVars));
+        isActive = true;
+        StartCoroutine(ProjectileLifecycle());
     }
-
-    private IEnumerator Timer(float duration)
+    
+    private IEnumerator ProjectileLifecycle()
     {
-        while(time <= duration)
+        // Get position variables
+        float speed = posVars[1].Value;
+        float a = posVars[2].Value;
+        float n = posVars[3].Value;
+
+        // Get damage variables
+        float initial = dmgVars[0].Value;
+        float dmgSpeed = dmgVars[1].Value;
+        float multiplier = dmgVars[2].Value;
+        float power = dmgVars[3].Value;
+
+        while (time <= duration && isActive)
         {
             time += Time.deltaTime;
+            
+            // Update position
+            transform.localPosition = new Vector2(
+                positionFunctionX(time, speed, a, n), 
+                positionFunctionY(time, speed, a, n)
+            );
+            
+            // Update damage
+            damage = initial + damageFunctionD(time, dmgSpeed, multiplier, power);
+            
             yield return null;
         }
-        Destroy(transform.parent.gameObject);
+        
+        // Return to pool instead of destroying
+        isActive = false;
+        ProjectilePool.Instance.ReturnToPool(transform.parent.gameObject);
     }
-
-    private IEnumerator Move(FunctionBank.FValue fx, FunctionBank.FValue fy, List<FunctionBank.Variable> vars)
+    
+    public void OnDisable()
     {
-        float speed = vars[1].Value;
-        float a = vars[2].Value;
-        float n = vars[3].Value;
-
-        while(true)
-        {
-            transform.localPosition = new Vector2(fx(time, speed, a, n), fy(time, speed, a, n));
-            yield return null;
-        }
+        isActive = false;
+        StopAllCoroutines();
     }
-
-    private IEnumerator CalcDamage(FunctionBank.FValue fd, List<FunctionBank.Variable> vars)
-    {
-        float initial = vars[0].Value;
-        float speed = vars[1].Value;
-        float multiplier = vars[2].Value;
-        float power = vars[3].Value;
-
-        while(true)
-        {
-            damage = initial + fd(time, speed, multiplier, power);
-            yield return null;
-        }
-    }
-
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer != ignoreLayer)
+        if (collision.gameObject.layer != ignoreLayer)
         {
-            collision.gameObject.GetComponent<Entity>().TakeDamage(damage);
+            IDamageable target = collision.gameObject.GetComponent<IDamageable>();
+            if (target != null)
+            {
+                target.TakeDamage(damage);
+                // Optional: Deactivate projectile on hit
+                // isActive = false;
+                // ProjectilePool.Instance.ReturnToPool(transform.parent.gameObject);
+            }
         }
     }
 }

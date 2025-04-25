@@ -76,8 +76,12 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = player.MoveSpeed * Time.deltaTime * new Vector2(move.x, move.y);
         transform.Translate(movement, Space.World);
 
-        Vector2 facingDirection = look - new Vector2(transform.position.x, transform.position.y);
-        float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
-        transform.eulerAngles = new Vector3(0f, 0f, angle);
+        if(look != Vector2.zero)
+        {
+            Vector2 facingDirection = look - new Vector2(transform.position.x, transform.position.y);
+            float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
+
     }
 }

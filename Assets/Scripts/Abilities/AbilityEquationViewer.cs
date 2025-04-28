@@ -3,21 +3,11 @@ using UnityEngine;
 
 public class AbilityEquationViewer : MonoBehaviour
 {
-    public AbilityEquationViewer Instance;
+    [SerializeField] private TextMeshProUGUI abilityNameText;
     [SerializeField] private TextMeshProUGUI posXEquationText;
     [SerializeField] private TextMeshProUGUI posYEquationText;
     [SerializeField] private TextMeshProUGUI dmgEquationText;
-    private AbilityAttack ability;
-
-    void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else
-        {
-            Debug.LogWarning("Tried to create more than one instance of the AbilityEquationViewer singleton!");
-            Destroy(this);
-        }
-    }
+    private Ability ability;
 
     void OnEnable()
     {
@@ -27,11 +17,12 @@ public class AbilityEquationViewer : MonoBehaviour
     public void SetAbilityDetails(int abilityIndex)
     {
         if (PlayerEntity.Instance != null) ability = PlayerEntity.Instance.Abilities[abilityIndex];
-        if (ability != null)
+        if (ability != null && ability is AbilityAttack attack)
         {
-            posXEquationText.text = $"x = {ability.FunctionPosX.StringValue(ability.PosVars[0].Value, ability.PosVars[1].Value, ability.PosVars[2].Value, ability.PosVars[3].Value)}";
-            posYEquationText.text = $"y = {ability.FunctionPosY.StringValue(ability.PosVars[0].Value, ability.PosVars[1].Value, ability.PosVars[2].Value, ability.PosVars[3].Value)}";
-            dmgEquationText.text = $"d = {ability.FunctionDmg.StringValue(ability.DmgVars[0].Value, ability.DmgVars[1].Value, ability.DmgVars[2].Value, ability.DmgVars[3].Value)}";
+            abilityNameText.text = ability.AbilityName;
+            posXEquationText.text = $"x = {attack.FunctionPosX.StringValue(attack.PosVars[0].Value, attack.PosVars[1].Value, attack.PosVars[2].Value, attack.PosVars[3].Value)}";
+            posYEquationText.text = $"y = {attack.FunctionPosY.StringValue(attack.PosVars[0].Value, attack.PosVars[1].Value, attack.PosVars[2].Value, attack.PosVars[3].Value)}";
+            dmgEquationText.text = $"d = {attack.FunctionDmg.StringValue(attack.DmgVars[0].Value, attack.DmgVars[1].Value, attack.DmgVars[2].Value, attack.DmgVars[3].Value)}";
         }
         else
         {

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RoseAttack
   m_EditorClassIdentifier: 
   abilityName: Rose Attack
+  cooldownTime: 1
   positionXType: 4
   positionYType: 5
   damageType: 2
@@ -24,7 +25,7 @@ MonoBehaviour:
   - name: Width/Radius
     value: 2
   - name: Frequency
-    value: 0.8333333
+    value: 0.833
   damageVariablesArray:
   - name: Initial
     value: 0

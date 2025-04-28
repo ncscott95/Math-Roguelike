@@ -5,6 +5,7 @@ using UnityEngine;
 public class AbilityConfiguration : ScriptableObject
 {
     public string abilityName;
+    public float cooldownTime;
     public FunctionTypes positionXType;
     public FunctionTypes positionYType;
     public FunctionTypes damageType;

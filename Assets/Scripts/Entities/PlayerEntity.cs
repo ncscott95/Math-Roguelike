@@ -4,7 +4,7 @@ public class PlayerEntity : Entity
 {
     public static PlayerEntity Instance;
     public const int MAX_ABILITIES = 4;
-    public AbilityAttack[] Abilities = new AbilityAttack[MAX_ABILITIES];
+    public Ability[] Abilities = new Ability[MAX_ABILITIES];
     
     // TODO: debug, remove later
     public AbilityAttack LinearAttack
@@ -24,19 +24,19 @@ public class PlayerEntity : Entity
 
     void Start()
     {
+        // TODO: replace with local variables
         LinearAttack = AbilityBank.Instance.NewAbility(FunctionTypes.LINEAR);
         LinearAttack.PosVars[1].Value = 25f;
         LinearAttack.DmgVars[3].Value = 1f;
+        Abilities[0] = LinearAttack;
 
         SineAttack = AbilityBank.Instance.NewAbility(FunctionTypes.SINE);
 
-        Abilities[1] = AbilityBank.Instance.NewAbility(FunctionTypes.ROSEX);
-        Abilities[1].DmgVars[1].Value = 1f;
-        Abilities[1].DmgVars[2].Value = 5f;
-        Abilities[1].DmgVars[3].Value = 2f;
-
-        // TODO: debug, remove later
-        Abilities[0] = LinearAttack;
+        AbilityAttack roseAttack = AbilityBank.Instance.NewAbility(FunctionTypes.ROSEX);
+        roseAttack.DmgVars[1].Value = 1f;
+        roseAttack.DmgVars[2].Value = 5f;
+        roseAttack.DmgVars[3].Value = 2f;
+        Abilities[1] = roseAttack;
     }
     
     public override void TakeDamage(float damage)

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LinearAttack
   m_EditorClassIdentifier: 
   abilityName: Linear Attack
+  cooldownTime: 0.5
   positionXType: 1
   positionYType: 0
   damageType: 2

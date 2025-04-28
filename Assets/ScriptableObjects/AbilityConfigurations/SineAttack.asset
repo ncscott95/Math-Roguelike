@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SineAttack
   m_EditorClassIdentifier: 
   abilityName: Sine Attack
+  cooldownTime: 0.5
   positionXType: 1
   positionYType: 3
   damageType: 2

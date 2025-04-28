@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class AbilityAttack : ScriptableObject
+public class AbilityAttack : Ability
 {
     public class AbilityFunction
     {
@@ -56,15 +57,19 @@ public class AbilityAttack : ScriptableObject
     public List<FunctionBank.Variable> DmgVars;
     public GameObject Projectile;
 
-    public void Use(Entity source)
+    public override void Use(Entity source)
     {
-        GameObject projectileObj = ProjectilePool.Instance.GetProjectile(Projectile);
-        
-        projectileObj.transform.position = source.transform.position;
-        projectileObj.transform.rotation = source.transform.rotation;
-        
-        projectileObj.GetComponentInChildren<Projectile>().Fire(source, 
-            FunctionPosX.ValueFunction, FunctionPosY.ValueFunction, 
-            PosVars, FunctionDmg.ValueFunction, DmgVars);
+        if (CanUse)
+        {
+            base.Use(source);
+            GameObject projectileObj = ProjectilePool.Instance.GetProjectile(Projectile);
+            
+            projectileObj.transform.position = source.transform.position;
+            projectileObj.transform.rotation = source.transform.rotation;
+            
+            projectileObj.GetComponentInChildren<Projectile>().Fire(source, 
+                FunctionPosX.ValueFunction, FunctionPosY.ValueFunction, 
+                PosVars, FunctionDmg.ValueFunction, DmgVars);
+        }
     }
 }

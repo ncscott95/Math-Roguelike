@@ -29,6 +29,9 @@ public class AbilityBank : ScriptableObject
         }
         
         AbilityAttack ability = CreateInstance<AbilityAttack>();
+
+        ability.AbilityName = config.abilityName;
+        ability.CooldownTime = config.cooldownTime;
         
         ability.FunctionPosX = new AbilityAttack.AbilityFunction(config.positionXType);
         ability.FunctionPosY = new AbilityAttack.AbilityFunction(config.positionYType);

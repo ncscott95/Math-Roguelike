@@ -13,6 +13,8 @@ public class PlayerEntity : Entity
     public Ability RoseAttack
     { get; set; }
 
+    public AbilityEquationViewer temp;
+
     void Start()
     {
         LinearAttack = AbilityBank.Instance.NewAbility(FunctionTypes.LINEAR);
@@ -28,6 +30,8 @@ public class PlayerEntity : Entity
 
         BasicAttack = LinearAttack;
         SpecialAttack = RoseAttack;
+
+        temp.Ability = SineAttack;
     }
     
     public override void TakeDamage(float damage)

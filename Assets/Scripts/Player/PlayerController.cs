@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private PlayerControls inputs;
     private Vector2 move;
     private Vector2 look;
+    float colliderRadius;
+    private const float maxWorldPos = 5f;
 
     void Awake()
     {
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
         inputs.Player.Pause.performed += ctx => Pause();
 
         inputs.Player.DebugSwap.performed += ctx => DebugSwapAttacks();
+
+        colliderRadius = GetComponent<CircleCollider2D>().radius;
     }
 
     void OnEnable()
@@ -75,6 +79,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 movement = player.MoveSpeed * Time.deltaTime * new Vector2(move.x, move.y);
         transform.Translate(movement, Space.World);
+        float x = Mathf.Clamp(transform.position.x, -maxWorldPos + colliderRadius, maxWorldPos - colliderRadius);
+        float y = Mathf.Clamp(transform.position.y, -maxWorldPos + colliderRadius, maxWorldPos - colliderRadius);
+        transform.position = new Vector3(x, y, 0f);
 
         if(look != Vector2.zero)
         {
@@ -82,6 +89,5 @@ public class PlayerController : MonoBehaviour
             float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
         }
-
     }
 }

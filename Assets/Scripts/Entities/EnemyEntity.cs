@@ -5,7 +5,7 @@ public class EnemyEntity : Entity
     public Transform Target;
     public float RotationSpeed = 5f;
     public float StoppingDistance = 2f;
-    public Ability BasicAttack
+    public AbilityAttack BasicAttack
     { get; set; }
     
     void Start()

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ability : ScriptableObject
+public class AbilityAttack : ScriptableObject
 {
     public class AbilityFunction
     {

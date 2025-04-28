@@ -20,7 +20,7 @@ public class AbilityBank : ScriptableObject
     [SerializeField] private AbilityConfiguration sineConfig;
     [SerializeField] private AbilityConfiguration roseConfig;
 
-    private Ability NewAbilityFromConfig(AbilityConfiguration config)
+    private AbilityAttack NewAbilityFromConfig(AbilityConfiguration config)
     {
         if (config == null)
         {
@@ -28,13 +28,13 @@ public class AbilityBank : ScriptableObject
             return null;
         }
         
-        Ability ability = CreateInstance<Ability>();
+        AbilityAttack ability = CreateInstance<AbilityAttack>();
         
-        ability.FunctionPosX = new Ability.AbilityFunction(config.positionXType);
-        ability.FunctionPosY = new Ability.AbilityFunction(config.positionYType);
+        ability.FunctionPosX = new AbilityAttack.AbilityFunction(config.positionXType);
+        ability.FunctionPosY = new AbilityAttack.AbilityFunction(config.positionYType);
         ability.PosVars = config.GetPositionVariables();
         
-        ability.FunctionDmg = new Ability.AbilityFunction(config.damageType);
+        ability.FunctionDmg = new AbilityAttack.AbilityFunction(config.damageType);
         ability.DmgVars = config.GetDamageVariables();
         
         ability.Projectile = config.projectilePrefab;
@@ -42,7 +42,7 @@ public class AbilityBank : ScriptableObject
         return ability;
     }
     
-    public Ability NewAbility(FunctionTypes type)
+    public AbilityAttack NewAbility(FunctionTypes type)
     {
         switch(type)
         {

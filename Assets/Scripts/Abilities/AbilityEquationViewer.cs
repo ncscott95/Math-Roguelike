@@ -7,7 +7,7 @@ public class AbilityEquationViewer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI posXEquationText;
     [SerializeField] private TextMeshProUGUI posYEquationText;
     [SerializeField] private TextMeshProUGUI dmgEquationText;
-    private Ability ability;
+    private AbilityAttack ability;
 
     void Awake()
     {

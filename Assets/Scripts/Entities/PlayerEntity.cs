@@ -4,12 +4,12 @@ public class PlayerEntity : Entity
 {
     public static PlayerEntity Instance;
     public const int MAX_ABILITIES = 4;
-    public Ability[] Abilities = new Ability[MAX_ABILITIES];
+    public AbilityAttack[] Abilities = new AbilityAttack[MAX_ABILITIES];
     
     // TODO: debug, remove later
-    public Ability LinearAttack
+    public AbilityAttack LinearAttack
     { get; set; }
-    public Ability SineAttack
+    public AbilityAttack SineAttack
     { get; set; }
 
     void Awake()

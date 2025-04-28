@@ -2,18 +2,25 @@ using UnityEngine;
 
 public class PlayerEntity : Entity
 {
-    public Ability BasicAttack
-    { get; set; }
-    public Ability SpecialAttack
-    { get; set; }
+    public static PlayerEntity Instance;
+    public const int MAX_ABILITIES = 4;
+    public Ability[] Abilities = new Ability[MAX_ABILITIES];
+    
+    // TODO: debug, remove later
     public Ability LinearAttack
     { get; set; }
     public Ability SineAttack
     { get; set; }
-    public Ability RoseAttack
-    { get; set; }
 
-    public AbilityEquationViewer temp;
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else
+        {
+            Debug.LogWarning("Tried to create more than one instance of the PlayerEntity singleton!");
+            Destroy(this);
+        }
+    }
 
     void Start()
     {
@@ -23,15 +30,13 @@ public class PlayerEntity : Entity
 
         SineAttack = AbilityBank.Instance.NewAbility(FunctionTypes.SINE);
 
-        RoseAttack = AbilityBank.Instance.NewAbility(FunctionTypes.ROSEX);
-        RoseAttack.DmgVars[1].Value = 1f;
-        RoseAttack.DmgVars[2].Value = 5f;
-        RoseAttack.DmgVars[3].Value = 2f;
+        Abilities[1] = AbilityBank.Instance.NewAbility(FunctionTypes.ROSEX);
+        Abilities[1].DmgVars[1].Value = 1f;
+        Abilities[1].DmgVars[2].Value = 5f;
+        Abilities[1].DmgVars[3].Value = 2f;
 
-        BasicAttack = LinearAttack;
-        SpecialAttack = RoseAttack;
-
-        temp.Ability = SineAttack;
+        // TODO: debug, remove later
+        Abilities[0] = LinearAttack;
     }
     
     public override void TakeDamage(float damage)

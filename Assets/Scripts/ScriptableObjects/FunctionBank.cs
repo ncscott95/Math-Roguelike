@@ -50,9 +50,9 @@ public class FunctionBank : ScriptableObject
     // String Functions
     public delegate string FString(float t, float S, float a, float n);
     public string ConstantString(float t, float S, float a, float n) => $"{a}";
-    public string LinearString(float t, float S, float a, float n) => $"{S}t";
-    public string PolynomialString(float t, float S, float a, float n) => $"{a}({S}t)^{n}";
-    public string SineString(float t, float S, float a, float n) => $"{a}sin({n} * {S}t)";
-    public string RoseXString(float t, float S, float a, float n) => $"{a}sin({n} * {S}t)cos({S}t)";
-    public string RoseYString(float t, float S, float a, float n) => $"{a}sin({n} * {S}t)sin({S}t)";
+    public string LinearString(float t, float S, float a, float n) => $"{(S != 1 ? S : "")}t";
+    public string PolynomialString(float t, float S, float a, float n) => $"{(a != 1 ? a : "")}({(S != 1 ? S : "")}t)^{n}";
+    public string SineString(float t, float S, float a, float n) => $"{(a != 1 ? a : "")}sin({n} * {(S != 1 ? S : "")}t)";
+    public string RoseXString(float t, float S, float a, float n) => $"{(a != 1 ? a : "")}sin({n} * {(S != 1 ? S : "")}t)cos({(S != 1 ? S : "")}t)";
+    public string RoseYString(float t, float S, float a, float n) => $"{(a != 1 ? a : "")}sin({n} * {(S != 1 ? S : "")}t)sin({(S != 1 ? S : "")}t)";
 }

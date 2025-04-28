@@ -4,8 +4,6 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
 
-    private PlayerEntity player;
-
     private PlayerControls inputs;
     private Vector2 move;
     private Vector2 look;
@@ -21,7 +19,6 @@ public class PlayerController : MonoBehaviour
             Destroy(this);
         }
 
-        player = GetComponent<PlayerEntity>();
         inputs = new PlayerControls();
 
         inputs.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
@@ -33,6 +30,7 @@ public class PlayerController : MonoBehaviour
         inputs.Player.Special.performed += ctx => Special();
         inputs.Player.Pause.performed += ctx => Pause();
 
+        // TODO: debug, remove later
         inputs.Player.DebugSwap.performed += ctx => DebugSwapAttacks();
 
         colliderRadius = GetComponent<CircleCollider2D>().radius;
@@ -56,12 +54,12 @@ public class PlayerController : MonoBehaviour
     
     private void Attack()
     {
-        player.BasicAttack.Use(player);
+        PlayerEntity.Instance.Abilities[0].Use(PlayerEntity.Instance);
     }
 
     private void Special()
     {
-        player.SpecialAttack.Use(player);
+        PlayerEntity.Instance.Abilities[1].Use(PlayerEntity.Instance);
     }
 
     private void Pause()
@@ -69,15 +67,16 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.PauseGame();
     }
 
+    // TODO: debug, remove later
     private void DebugSwapAttacks()
     {
-        if(player.BasicAttack == player.LinearAttack) player.BasicAttack = player.SineAttack;
-        else player.BasicAttack = player.LinearAttack;
+        if(PlayerEntity.Instance.Abilities[0] == PlayerEntity.Instance.LinearAttack) PlayerEntity.Instance.Abilities[0] = PlayerEntity.Instance.SineAttack;
+        else PlayerEntity.Instance.Abilities[0] = PlayerEntity.Instance.LinearAttack;
     }
 
     void Update()
     {
-        Vector2 movement = player.MoveSpeed * Time.deltaTime * new Vector2(move.x, move.y);
+        Vector2 movement = PlayerEntity.Instance.MoveSpeed * Time.deltaTime * new Vector2(move.x, move.y);
         transform.Translate(movement, Space.World);
         float x = Mathf.Clamp(transform.position.x, -maxWorldPos + colliderRadius, maxWorldPos - colliderRadius);
         float y = Mathf.Clamp(transform.position.y, -maxWorldPos + colliderRadius, maxWorldPos - colliderRadius);

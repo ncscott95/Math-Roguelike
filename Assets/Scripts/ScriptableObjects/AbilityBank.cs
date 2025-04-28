@@ -51,6 +51,7 @@ public class AbilityBank : ScriptableObject
             case FunctionTypes.SINE:
                 return NewAbilityFromConfig(sineConfig);
             case FunctionTypes.ROSEX:
+            case FunctionTypes.ROSEY:
                 return NewAbilityFromConfig(roseConfig);
             default:
                 Debug.LogWarning("Invalid function type");
